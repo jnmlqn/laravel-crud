@@ -31,6 +31,9 @@ EXPOSE 9000
 RUN chmod -R 777 storage
 RUN touch /var/www/storage/logs/laravel.log
 RUN composer install --ignore-platform-reqs
+RUN composer require laravel/ui
+RUN php artisan ui bootstrap
+RUN npm install
 RUN php artisan cache:clear
 RUN php artisan config:clear
 
