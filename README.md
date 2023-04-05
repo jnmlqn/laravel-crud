@@ -19,7 +19,7 @@
 		Open <b>http://localhost:4001</b> in your browser
 	</li>
 	<li>
-		Credentials:<br> 
+		Credentials:
 		<br><b>Email:</b> admin@admin.com
 		<br><b>Password:</b> adminpassword
 	</li>
