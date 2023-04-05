@@ -15,10 +15,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('login');
 });
 
 Auth::routes();
 
-Route::softDeletes('users', UserController::class);
-Route::resource('users', UserController::class);
+Route::middleware('auth')->group(function () {
+    Route::softDeletes('users', UserController::class);
+    Route::resource('users', UserController::class);
+});

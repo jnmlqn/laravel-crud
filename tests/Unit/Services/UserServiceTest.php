@@ -7,7 +7,6 @@ use App\Services\UserService;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Mockery;
 use Str;
 use Tests\TestCase;
 

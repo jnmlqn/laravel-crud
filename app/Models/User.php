@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Events\UserSaved;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -51,6 +53,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        self::created(function ($model) {
+            event(new UserSaved($model));
+        });
+    }
+
     /**
      * @return string
      */
@@ -76,8 +87,39 @@ class User extends Authenticatable
     /**
      * @return string
      */
+    public function getGenderAttribute(): string
+    {
+        switch ($this->prefixname) {
+            case 'Mr.':
+                $gender = 'Male';
+                break;
+
+            case 'Ms.':
+            case 'Mrs.':
+                $gender = 'Female';
+                break;
+            
+            default:
+                $gender = 'N/A';
+                break;
+        }
+
+        return $gender;
+    }
+
+    /**
+     * @return string
+     */
     public function getMiddleInitialAttribute (): string
     {
         return strtoupper($this->middlename ? $this->middlename[0] . '.' : '');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function details(): HasMany
+    {
+        return $this->hasMany(Details::class);
     }
 }
