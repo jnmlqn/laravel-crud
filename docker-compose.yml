@@ -15,7 +15,7 @@ services:
     volumes:
       - ./:/var/www
       - ./.env.example:/var/www/.env
-      - ./docker-services/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+      - ./docker-services/php/php.ini:/usr/local/etc/php/conf.d/php.ini
       - /var/www/vendor/
     networks:
       - app-network

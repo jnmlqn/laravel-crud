@@ -18,6 +18,12 @@ RUN apt-get update && apt-get install -y \
     curl \
     libzip-dev
 
+RUN docker-php-ext-install gd
+
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y nodejs \
+    npm 
+
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN docker-php-ext-install pdo_mysql zip exif pcntl
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -34,7 +40,9 @@ RUN composer install --ignore-platform-reqs
 RUN composer require laravel/ui
 RUN php artisan ui bootstrap
 RUN npm install
+RUN npm install laravel-mix@latest --save-dev
 RUN php artisan cache:clear
 RUN php artisan config:clear
+RUN php artisan storage:link
 
 CMD bash -c "php-fpm"
